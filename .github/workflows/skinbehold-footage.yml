@@ -1,0 +1,49 @@
+name: skinbehold-footage
+on:
+  push:
+    branches: [skinbehold-footage]
+    paths: ['.github/workflows/skinbehold-footage.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download stock footage (Pexels) and audio
+        run: |
+          mkdir -p footage
+          while read name url; do
+            [ -z "$name" ] && continue
+            curl -sSL --fail --retry 3 -A "Mozilla/5.0" -o "footage/$name" "$url" && echo "OK $name" || echo "FAILED $name"
+          done <<'EOF'
+          gift_roses.mp4 https://videos.pexels.com/video-files/6763539/6763539-hd_1080_1920_25fps.mp4
+          unbox_gift.mp4 https://videos.pexels.com/video-files/6099390/6099390-hd_720_1280_50fps.mp4
+          massage.mp4 https://videos.pexels.com/video-files/6813009/6813009-hd_1080_1872_30fps.mp4
+          serum_drop.mp4 https://videos.pexels.com/video-files/6801666/6801666-hd_720_1280_30fps.mp4
+          honey_drop.mp4 https://videos.pexels.com/video-files/7615789/7615789-hd_720_1280_24fps.mp4
+          dropper_rl.mp4 https://videos.pexels.com/video-files/8131886/8131886-hd_720_1366_25fps.mp4
+          jade_green.mp4 https://videos.pexels.com/video-files/6693822/6693822-hd_720_1366_30fps.mp4
+          roller_plate.mp4 https://videos.pexels.com/video-files/6768506/6768506-hd_720_1366_30fps.mp4
+          roller_smile.mp4 https://videos.pexels.com/video-files/6446082/6446082-hd_1080_1920_25fps.mp4
+          cream_apply.mp4 https://videos.pexels.com/video-files/8802295/8802295-hd_720_1280_24fps.mp4
+          wash_side.mp4 https://videos.pexels.com/video-files/7597957/7597957-hd_720_1280_24fps.mp4
+          skincare_routine.mp4 https://videos.pexels.com/video-files/7550880/7550880-hd_720_1280_25fps.mp4
+          mask_woman.mp4 https://videos.pexels.com/video-files/7477490/7477490-hd_720_1280_24fps.mp4
+          gold_satin.mp4 https://videos.pexels.com/video-files/7677767/7677767-hd_720_1280_25fps.mp4
+          glitter_water.mp4 https://videos.pexels.com/video-files/7639852/7639852-hd_720_1280_30fps.mp4
+          scrub_hold.mp4 https://videos.pexels.com/video-files/6724993/6724993-hd_1080_1920_25fps.mp4
+          scrub_face.mp4 https://videos.pexels.com/video-files/6750891/6750891-hd_1080_1920_25fps.mp4
+          cream_touch.mp4 https://videos.pexels.com/video-files/6973464/6973464-hd_720_1280_25fps.mp4
+          music_a.wav https://ai-music-tracks.s3.us-east-1.amazonaws.com/2d9221c9-5513-44d3-8d75-68806910855d/045ba1c8-8930-4097-bde2-e838170f3624.wav
+          music_b.wav https://ai-music-tracks.s3.us-east-1.amazonaws.com/2d9221c9-5513-44d3-8d75-68806910855d/326fbb01-fbea-4482-b49d-5597666ad9e9.wav
+          vo_b.mp3 https://ai-voiceovers.s3.us-east-1.amazonaws.com/2d9221c9-5513-44d3-8d75-68806910855d/74324ffe-264e-47eb-b9e1-61ff9f12e9e9.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAQLTYEZQZ2YJBHWRF%2F20261104%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261104T154818Z&X-Amz-Expires=43200&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOj%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIE%2BRvKRN%2FEcaTm3eU2keCluF2MhbJx6luS9%2B0YDO8ADPAiBI7ZK9ylCd8zYT5cuzY7pb0rGk6NHmvnZXeBslI6k1oCqJBQix%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDAyNDk0ODAzNDYxMSIMTaL8w3bhAK55lMofKt0E8waIMGztwuVmrBI1FF%2FHnvi1aIlUMuB%2Fl92xyN9wBO3BhepJgpsohHdRnO8z7DQ1Khz79JKZlre6h7xQstrEucaksM0U%2FVflVyCYcxQoTMnMYcWl6RYeIdXoty8Wkusan%2Fuo9WqvzkBktQiD5t17fNlUchCskBL9cOjX8Tt%2FYfnYk1AlkeoZOrQlY8LhpBYI5LKCfonpo9pBaOV9T59fTdTr3AHN6dRDPl5iVvTjtn%2FXOwtucaYraIXM2JeCCtHQrmWjDA%2FPy2ePM8Esb28ncSooMXG0AhSJCxFZU%2ByLD3AsFY9ZiRKu7sk5WNnKEaWYUbbWkG%2BZNC6o05rx3Irz9HEigxyTLLKBC5BD9HKQ%2BhW0Gn4Us1VwM9iSwwZYb2kvsQnYNZdkjIHJi7NmnNoVfN0s1QKabdFrERFjZLHimcQUehW0AYDO7yrHqZXEpBGvsT5G7DWyuGc63Qwvgp3UZEgpfA09CPUak6R%2FZ52EJ%2BE8yTgq4AYX60QTvtwG27Dp7KTTBjGADohFqIqjYZXfemIbKzXhTtBAeeHTpxkV%2FDEVjm%2BzFU%2Ffe4RjrFcnJpBS%2BlnF7a9FlRZLFazjS2ZVnq6kOM1U%2BgI6V4U9tIaoyCrT7%2B3d%2FuojYtp%2BAY2GDH27Vy%2B9Nrf9W4M6fqSbTJzO3FkKQO6KbAsiynriklJ6onxY56wb%2BlsUXnuKrYt%2Bvp1mMvyf7YYnCRw1O%2FO78RsKlMmYiGd2taPDJ1aZWrVBuWqFSplfI6yiah4tsybOmqZ0uVreTHS1M8%2FSLgYT%2Fcls0HlOrKq2s80mQQLx0aUwwqet1wY6mQHj0%2FlA%2FC4XeH%2F95KVasErtA7HQMgSVfzVmqVnJ%2Fk1tT%2F7n4JOfKSrnASwzRckG4ds0aE2KpY6nkE1%2B%2FHgFmhkVrSwh06nOgUkpzXDONRRH0%2FxbFxB%2FyCIVXEs6LR4mLfrkUx4sXMQYTAHRaJNyKycBQ2HJw%2FCAf91GD0Gx2zRIMJhctd5%2BLxsZcsRPPrrulZfnFJ0Xbuqt2uo%3D&X-Amz-Signature=600bed845dac0c3009d7b4b321d56723a6472e80dd0bc34e42201ff021c1e0a6&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject
+          EOF
+          ls -la footage
+      - name: Commit footage to this branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add footage
+          git commit -m "Add Skin Behold stock footage (Pexels, free licence) and music"
+          git push
